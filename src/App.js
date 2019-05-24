@@ -125,33 +125,55 @@ class App extends Component {
     enlargedSnake.unshift([]);
     this.setState({
       snakeDots: [...enlargedSnake],
-      speed: (speed>10 && score%2===0) ? speed-20 : speed,
+      speed: (speed>10 && score%2===0) ? speed-10 : speed,
       score: score+1,
     });
     this.checkLevel();
   }
   
   checkIfCollapsed() {
-    const { snakeDots } = this.state;
+    const { snakeDots, gameOver } = this.state;
     let snake = [...snakeDots];
     let head = snake[snake.length - 1];
     snake.pop();
     snake.forEach(dot => {
       if (head[0] === dot[0] && head[1] === dot[1]) {
-        this.onGameOver();
+        // this.onGameOver();
+        if(!gameOver)
+        this.setState({
+          gameOver: true,
+        })
       }
     })
   }
 
   checkIfOutOfBorders() {
-    const { snakeDots, gameOver } = this.state;
-    let head = snakeDots[snakeDots.length-1];
+    const { snakeDots, gameOver, direction } = this.state;
+    let dots = [...snakeDots];
+    let head = dots[dots.length - 1];
+
+    // let head = snakeDots[snakeDots.length-1];
     if (head[0] >= 100 || head[1] >= 100 || head[0] < 0 || head[1] < 0) {
-      if (!gameOver) {
-          this.setState({
-          gameOver: true,
-        })
+      // if (!gameOver) {
+      //     this.setState({
+      //     gameOver: true,
+      //   })
+      // }
+      if (direction === 'Right') {
+        head = [head[0]-100, head[1]];
+      } else if (direction === 'Left') {
+        head = [head[0]+100, head[1]];
+      } else if (direction === 'Down') {
+        head = [head[0], head[1]-100];
+      } else if (direction === 'Up') {
+        head = [head[0], head[1]+100];
       }
+
+      dots.push(head);
+      dots.shift();
+      this.setState({
+        snakeDots: dots,
+      })
     }
   }
 
