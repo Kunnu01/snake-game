@@ -5,4 +5,22 @@
     background: red;
     border: 1px solid white;
     z-index: 1;
+    /* animation: rotation 1s infinite linear; */
+}
+
+@-webkit-keyframes rotation {
+    from {
+            -webkit-transform: rotate(0deg);
+    }
+    to {
+            -webkit-transform: rotate(359deg);
+    }
+}
+
+.Snake_food
+{
+    -webkit-animation-name:             rotate; 
+    -webkit-animation-duration:         0.5s; 
+    -webkit-animation-iteration-count:  infinite;
+    -webkit-animation-timing-function: linear;
 }

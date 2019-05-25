@@ -6,7 +6,7 @@ import { getRandomCoordinates }  from './libs/utils';
 const initialState = {
   level: 'Noob',
   direction: 'Right',
-  speed: 200,
+  speed: 100,
   score: 0,
   highScore: localStorage.highestScore || 0,
   food: getRandomCoordinates(),
@@ -15,6 +15,7 @@ const initialState = {
     [2,0],
   ],
   gameOver: false,
+  classic: false,
 }
 class App extends Component {
   constructor(props) {
@@ -148,17 +149,21 @@ class App extends Component {
   }
 
   checkIfOutOfBorders() {
-    const { snakeDots, gameOver, direction } = this.state;
+    const { snakeDots, direction, classic, gameOver } = this.state;
     let dots = [...snakeDots];
     let head = dots[dots.length - 1];
 
     // let head = snakeDots[snakeDots.length-1];
     if (head[0] >= 100 || head[1] >= 100 || head[0] < 0 || head[1] < 0) {
-      // if (!gameOver) {
-      //     this.setState({
-      //     gameOver: true,
-      //   })
-      // }
+      if (!classic) {
+        if (!gameOver) {
+          this.setState({
+            gameOver: true,
+          });
+        }
+        return;
+      }
+
       if (direction === 'Right') {
         head = [head[0]-100, head[1]];
       } else if (direction === 'Left') {
@@ -198,12 +203,12 @@ class App extends Component {
       return null;
     }
     return (
-      <>
+      <div style={{position: 'relative', top: '35%', left: '30%'}}>
         <h1>Game Over</h1>
         <button onClick={() => this.onGameOver()}>
           New Game
         </button>
-      </>
+      </div>
     )
   }
   
@@ -211,18 +216,22 @@ class App extends Component {
     const { snakeDots, food, score, highScore, level, gameOver } = this.state;
     return (
       <>
-        <h4>Score: {score}</h4>
-        <h4>High Score: {highScore}</h4>
-        <h4>Level: {level}</h4>
-        {!gameOver
-          ? (
-            <div className="game-area">
-              <Snake snakeDots={snakeDots} />
-              <Food dot={food} />
-            </div>
-          )
-          : this.renderGameOver()
-        }
+        <div className="game-area">
+          {!gameOver
+            ? (
+              <>
+                <Snake snakeDots={snakeDots} />
+                <Food dot={food} />
+              </>
+            )
+            : this.renderGameOver()
+            }
+        </div>
+        <div style={{position: 'relative', margin: '2px auto', width: '500px', display: 'flex', justifyContent: 'space-between'}}>
+          <h4>Score: {score}</h4>
+          <h4>High Score: {highScore}</h4>
+          <h4>Level: {level}</h4>
+        </div>
       </>
     );
   }
