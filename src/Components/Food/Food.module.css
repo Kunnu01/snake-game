@@ -2,7 +2,7 @@
     position: absolute;
     width: 2%;
     height: 2%;
-    background: red;
+    /* background: red; */
     border: 1px solid white;
     z-index: 1;
     /* animation: rotation 1s infinite linear; */

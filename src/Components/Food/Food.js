@@ -3,6 +3,7 @@ import classes from './Food.module.css';
 
 const Food = (props) => {
     const style = {
+        background: `${props.color}`,
         left: `${props.dot[0]}%`,
         top: `${props.dot[1]}%`,
     }

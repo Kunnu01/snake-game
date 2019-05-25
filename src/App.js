@@ -6,10 +6,11 @@ import { getRandomCoordinates }  from './libs/utils';
 const initialState = {
   level: 'Noob',
   direction: 'Right',
-  speed: 100,
+  speed: 200,
   score: 0,
   highScore: localStorage.highestScore || 0,
   food: getRandomCoordinates(),
+  bonusFood: getRandomCoordinates(),
   snakeDots: [
     [0,0],
     [2,0],
@@ -110,11 +111,18 @@ class App extends Component {
   }
 
   checkIfEat() {
-    const { snakeDots, food } = this.state;
+    const { snakeDots, food, bonusFood, score } = this.state;
     let head = snakeDots[snakeDots.length - 1];
+    if (head[0] === bonusFood[0] && head[1] === bonusFood[1]) {
+      this.setState({
+        bonusFood: getRandomCoordinates(),
+        score: score+3,
+      })
+    }
     if (head[0] === food[0] && head[1] === food[1]) {
       this.setState({
         food: getRandomCoordinates(),
+        bonusFood: getRandomCoordinates(),
       });
       this.enlargeSnake();
     }
@@ -205,15 +213,26 @@ class App extends Component {
     return (
       <div style={{position: 'relative', top: '35%', left: '30%'}}>
         <h1>Game Over</h1>
-        <button onClick={() => this.onGameOver()}>
-          New Game
+        <button onClick={() => {
+            this.onGameOver()
+            this.setState({classic: false})
+          }}
+        >
+          Acrade
+        </button>
+        <button onClick={() => {
+            this.onGameOver()
+            this.setState({classic: true});
+          }}
+        >
+          Classic
         </button>
       </div>
     )
   }
   
   render() {
-    const { snakeDots, food, score, highScore, level, gameOver } = this.state;
+    const { snakeDots, food, bonusFood, score, highScore, level, gameOver } = this.state;
     return (
       <>
         <div className="game-area">
@@ -221,7 +240,8 @@ class App extends Component {
             ? (
               <>
                 <Snake snakeDots={snakeDots} />
-                <Food dot={food} />
+                <Food dot={food} color="red" />
+                {(score%8===0 && score>1) ? <Food color="yellow" dot={bonusFood} /> : null}
               </>
             )
             : this.renderGameOver()
