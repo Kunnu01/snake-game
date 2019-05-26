@@ -211,7 +211,7 @@ class App extends Component {
       return null;
     }
     return (
-      <div style={{position: 'relative', top: '35%', left: '30%'}}>
+      <div style={{color: 'white', position: 'relative', top: '35%', left: '30%'}}>
         <h1>Game Over</h1>
         <button onClick={() => {
             this.onGameOver()
@@ -247,7 +247,7 @@ class App extends Component {
             : this.renderGameOver()
             }
         </div>
-        <div style={{position: 'relative', margin: '2px auto', width: '500px', display: 'flex', justifyContent: 'space-between'}}>
+        <div style={{color: 'white', position: 'relative', margin: '2px auto', width: '500px', display: 'flex', justifyContent: 'space-between'}}>
           <h4>Score: {score}</h4>
           <h4>High Score: {highScore}</h4>
           <h4>Level: {level}</h4>

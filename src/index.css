@@ -1,6 +1,7 @@
 html, body {
   margin: 0;
   overflow: hidden;
+  background: #1d1c1d;
 }
 
 .game-area {
@@ -8,5 +9,6 @@ html, body {
   margin: 20px auto;
   width: 500px;
   height: 500px;
-  border: 2px solid black;
+  background: #1d1b24;
+  border: 2px solid white;
 }
