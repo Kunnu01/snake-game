@@ -218,7 +218,7 @@ class App extends Component {
             this.setState({classic: false})
           }}
         >
-          Acrade
+          Arcade
         </button>
         <button onClick={() => {
             this.onGameOver()
