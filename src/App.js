@@ -110,19 +110,31 @@ class App extends Component {
     })
   }
 
+  generateFood = () => {
+    const { snakeDots } = this.state;
+    const snake = [...snakeDots];
+    let food = getRandomCoordinates();
+    snake.forEach(dot => {
+      if(food[0] === dot[0] && food[1] === dot[1]) {
+        food = getRandomCoordinates();
+      }
+    });
+    return food;
+  }
+
   checkIfEat() {
     const { snakeDots, food, bonusFood, score } = this.state;
     let head = snakeDots[snakeDots.length - 1];
     if (head[0] === bonusFood[0] && head[1] === bonusFood[1]) {
       this.setState({
-        bonusFood: getRandomCoordinates(),
+        bonusFood: this.generateFood(),
         score: score+3,
       })
     }
     if (head[0] === food[0] && head[1] === food[1]) {
       this.setState({
-        food: getRandomCoordinates(),
-        bonusFood: getRandomCoordinates(),
+        food: this.generateFood(),
+        bonusFood: this.generateFood(),
       });
       this.enlargeSnake();
     }
@@ -232,9 +244,10 @@ class App extends Component {
       </div>
     )
   }
-  
+
   render() {
     const { snakeDots, food, bonusFood, score, highScore, level, gameOver } = this.state;
+    
     return (
       <>
         <div className="game-area">
