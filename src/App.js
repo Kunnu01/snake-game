@@ -14,6 +14,10 @@ const initialState = {
   snakeDots: [
     [0,0],
     [2,0],
+    [4,0],
+    [6,0],
+    [8,0],
+    [10,0]
   ],
   gameOver: false,
   classic: false,
@@ -156,7 +160,7 @@ class App extends Component {
     enlargedSnake.unshift([]);
     this.setState({
       snakeDots: [...enlargedSnake],
-      speed: (speed>60 && score%2===0) ? speed-10 : speed,
+      speed: (speed>20 && score%2===0) ? speed-20 : speed,
       score: score+1,
     });
     this.checkLevel();
