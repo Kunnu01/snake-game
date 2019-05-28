@@ -73,7 +73,7 @@ class App extends Component {
   checkLevel = () => {
     const { score } = this.state;
 
-    if (score > 6) {
+    if (score === 6) {
       this.setState({level: 'Veteran'})
     } else if (score > 6) {
       this.setState({level: 'Expert'})
@@ -82,6 +82,15 @@ class App extends Component {
     } else if (score > 2) {
       this.setState({level: 'Beginner'})
     }
+  }
+
+  shortenSnake() {
+    const { snakeDots } = this.state;
+
+  for (let i = 0; i <= 3; i++) {
+      snakeDots.shift();
+  }
+  this.setState({snakeDots});
   }
 
   moveSnake = () => {
@@ -129,7 +138,8 @@ class App extends Component {
       this.setState({
         bonusFood: this.generateFood(),
         score: score+3,
-      })
+      });
+      this.shortenSnake()
     }
     if (head[0] === food[0] && head[1] === food[1]) {
       this.setState({
