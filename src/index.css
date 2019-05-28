@@ -1,7 +1,7 @@
 html, body {
   margin: 0;
   overflow: hidden;
-  background: #1d1c1d;
+  background: #0f1128;
 }
 
 .game-area {
@@ -9,6 +9,17 @@ html, body {
   margin: 20px auto;
   width: 500px;
   height: 500px;
-  background: #1d1b24;
-  border: 2px solid white;
+  background: #0f1128;
+  border: 3px solid white;
+}
+
+.ModeButton {
+  background-color: rgb(5, 5, 5);
+  outline: none;
+  cursor: pointer;
+  color: white;
+  font-family: inherit;
+  font-size: 1.2em;
+  padding: 10px 25px;
+  margin: 10px 0;
 }

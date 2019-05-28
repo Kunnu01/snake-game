@@ -134,7 +134,7 @@ class App extends Component {
     enlargedSnake.unshift([]);
     this.setState({
       snakeDots: [...enlargedSnake],
-      speed: (speed>10 && score%2===0) ? speed-10 : speed,
+      speed: (speed>60 && score%2===0) ? speed-10 : speed,
       score: score+1,
     });
     this.checkLevel();
@@ -211,22 +211,24 @@ class App extends Component {
       return null;
     }
     return (
-      <div style={{color: 'white', position: 'relative', top: '35%', left: '30%'}}>
-        <h1>Game Over</h1>
-        <button onClick={() => {
-            this.onGameOver()
-            this.setState({classic: false})
-          }}
-        >
-          Arcade
-        </button>
-        <button onClick={() => {
-            this.onGameOver()
-            this.setState({classic: true});
-          }}
-        >
-          Classic
-        </button>
+      <div style={{display: 'flex', flexDirection: 'column',color: 'white', position: 'relative', marginTop: '30%'}}>
+        <h1 style={{ display: 'flex', justifyContent: 'space-around', color: '#53f6c7', fontSize: '3rem'}}>Game Over</h1>
+        <div style={{display: 'flex', justifyContent: 'space-around'}}>
+          <button className="ModeButton" onClick={() => {
+              this.onGameOver()
+              this.setState({classic: false})
+            }}
+          >
+            Arcade
+          </button>
+          <button className="ModeButton" onClick={() => {
+              this.onGameOver()
+              this.setState({classic: true});
+            }}
+          >
+            Classic
+          </button>
+        </div>
       </div>
     )
   }
@@ -247,10 +249,10 @@ class App extends Component {
             : this.renderGameOver()
             }
         </div>
-        <div style={{color: 'white', position: 'relative', margin: '2px auto', width: '500px', display: 'flex', justifyContent: 'space-between'}}>
-          <h4>Score: {score}</h4>
-          <h4>High Score: {highScore}</h4>
-          <h4>Level: {level}</h4>
+        <div style={{color: '#53f6c7', position: 'relative', margin: '2px auto', width: '500px', display: 'flex', justifyContent: 'space-between'}}>
+          <h3>Score: {score}</h3>
+          <h3>High Score: {highScore}</h3>
+          <h3>Level: {level}</h3>
         </div>
       </>
     );
