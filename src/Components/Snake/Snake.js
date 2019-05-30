@@ -2,10 +2,10 @@ import React from 'react';
 import classes from './Snake.module.css';
 
 const Snake = (props) => {
-    const { snakeDots } = props;
+    const { snakeBlocks } = props;
     return (
         <div>
-            {snakeDots.map((dot, index) => {
+            {snakeBlocks.map((dot, index) => {
                 const style = {
                     left: `${dot[0]}%`,
                     top: `${dot[1]}%`,
