@@ -10,7 +10,7 @@ const initialState = {
   score: 0,
   highScore: localStorage.highestScore || 0,
   food: getRandomCoordinates(),
-  bonusFood: getRandomCoordinates(),
+  bonusFood: [-2, -2],
   snakeDots: [
     [0,0],
     [2,0],
@@ -77,7 +77,7 @@ class App extends Component {
   checkLevel = () => {
     const { score } = this.state;
 
-    if (score === 6) {
+    if (score >= 8) {
       this.setState({level: 'Veteran'})
     } else if (score > 6) {
       this.setState({level: 'Expert'})
@@ -90,6 +90,7 @@ class App extends Component {
 
   shortenSnake() {
     const { snakeDots } = this.state;
+    console.log('short');
 
   for (let i = 0; i <= 3; i++) {
       snakeDots.shift();
@@ -139,8 +140,9 @@ class App extends Component {
     const { snakeDots, food, bonusFood, score } = this.state;
     let head = snakeDots[snakeDots.length - 1];
     if (head[0] === bonusFood[0] && head[1] === bonusFood[1]) {
+      console.log('bonusFood');
       this.setState({
-        bonusFood: this.generateFood(),
+        bonusFood: [-2, -2],
         score: score+3,
       });
       this.shortenSnake()
@@ -148,7 +150,6 @@ class App extends Component {
     if (head[0] === food[0] && head[1] === food[1]) {
       this.setState({
         food: this.generateFood(),
-        bonusFood: this.generateFood(),
       });
       this.enlargeSnake();
     }
@@ -162,6 +163,7 @@ class App extends Component {
       snakeDots: [...enlargedSnake],
       speed: (speed>20 && score%2===0) ? speed-20 : speed,
       score: score+1,
+      bonusFood: ((score+1)>2 && (score+1)%2===0) ? this.generateFood() : [-2, -2],
     });
     this.checkLevel();
   }
@@ -270,7 +272,7 @@ class App extends Component {
               <>
                 <Snake snakeDots={snakeDots} />
                 <Food dot={food} color="red" />
-                {(score%8===0 && score>1) ? <Food color="yellow" dot={bonusFood} /> : null}
+                {(score%2===0 && score>2) ? <Food color="yellow" dot={bonusFood} /> : null}
               </>
             )
             : this.renderGameOver()
