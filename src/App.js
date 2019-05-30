@@ -8,8 +8,8 @@ class App extends Component {
       <div>
         <BrowserRouter>        
           <Switch>
-            <Route exact path="/" component={MainPage} />
             <Route path={`/play/:mode`} component={PlayGame} />
+            <Route path="/" component={MainPage} />
           </Switch>
         </BrowserRouter>
       </div>
