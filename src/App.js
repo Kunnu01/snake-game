@@ -77,13 +77,13 @@ class App extends Component {
   checkLevel = () => {
     const { score } = this.state;
 
-    if (score >= 8) {
+    if (score >= 20) {
       this.setState({level: 'Veteran'})
-    } else if (score > 6) {
+    } else if (score >= 15) {
       this.setState({level: 'Expert'})
-    } else if (score > 4) {
+    } else if (score >= 10) {
       this.setState({level: 'Amateur'})
-    } else if (score > 2) {
+    } else if (score >= 5) {
       this.setState({level: 'Beginner'})
     }
   }
@@ -92,7 +92,7 @@ class App extends Component {
     const { snakeDots } = this.state;
     console.log('short');
 
-  for (let i = 0; i <= 3; i++) {
+  for (let i = 0; i <= 2; i++) {
       snakeDots.shift();
   }
   this.setState({snakeDots});
@@ -161,11 +161,10 @@ class App extends Component {
     enlargedSnake.unshift([]);
     this.setState({
       snakeDots: [...enlargedSnake],
-      speed: (speed>20 && score%2===0) ? speed-20 : speed,
+      speed: (speed>30 && score%2===0) ? speed-10 : speed,
       score: score+1,
-      bonusFood: ((score+1)>2 && (score+1)%2===0) ? this.generateFood() : [-2, -2],
-    });
-    this.checkLevel();
+      bonusFood: ((score+1)>2 && (score+1)%10===0) ? this.generateFood() : [-2, -2],
+    }, () => this.checkLevel());
   }
   
   checkIfCollapsed() {
@@ -272,7 +271,7 @@ class App extends Component {
               <>
                 <Snake snakeDots={snakeDots} />
                 <Food dot={food} color="red" />
-                {(score%2===0 && score>2) ? <Food color="yellow" dot={bonusFood} /> : null}
+                {(score%10===0 && score>2) ? <Food color="yellow" dot={bonusFood} /> : null}
               </>
             )
             : this.renderGameOver()
