@@ -3,11 +3,11 @@ import React from 'react';
 const Mainpage = (props) => {
 
     const handleArcadeMode = () => {
-        props.history.push('/play/arcade');
+        props.history.push('snake-game/play/arcade');
     }
 
     const handleClassicMode = () => {
-        props.history.push('/play/classic');
+        props.history.push('snake-game/play/classic');
     }
     
     return (
