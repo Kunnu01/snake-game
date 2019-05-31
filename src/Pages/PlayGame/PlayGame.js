@@ -45,7 +45,6 @@ class App extends Component {
   }
 
   componentWillUnmount() {
-    // localStorage.removeItem('classicHighestScore', 'arcadeHighestScore');
     clearInterval(this.interval);
   }
 
@@ -249,8 +248,10 @@ class App extends Component {
     const { classicHighestScore, arcadeHighestScore, classic } = this.state;
     if (classic) {
       localStorage.setItem('classicHighestScore', classicHighestScore);
+      initialState.classicHighestScore = classicHighestScore;
     } else {
       localStorage.setItem('arcadeHighestScore', arcadeHighestScore);
+      initialState.arcadeHighestScore = arcadeHighestScore;
     }
     this.setState(initialState);
   }
