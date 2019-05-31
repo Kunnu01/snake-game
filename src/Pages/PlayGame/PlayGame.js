@@ -4,13 +4,13 @@ import { Snake, Food } from '../../Components';
 import { getRandomCoordinates }  from '../../libs/utils';
 
 const incrementByValueOne = 1;
-
 const initialState = {
   level: 'Noob',
   direction: 'Right',
   speed: 200,
   score: 0,
-  highScore: localStorage.highestScore || 0,
+  arcadeHighestScore: localStorage.arcadeHighestScore || 0,
+  classicHighestScore: localStorage.classicHighestScore || 0, 
   food: getRandomCoordinates(),
   bonusFood: [-2, -2],
   snakeBlocks: [
@@ -40,12 +40,12 @@ class App extends Component {
   }
 
   componentDidMount() {
-    localStorage.removeItem('highestScore');
     this.interval = setInterval(this.moveSnake, this.state.speed);
     document.onkeydown = this.onKeyDown;
   }
 
   componentWillUnmount() {
+    // localStorage.removeItem('classicHighestScore', 'arcadeHighestScore');
     clearInterval(this.interval);
   }
 
@@ -227,18 +227,31 @@ class App extends Component {
   }
 
   checkHighScore = () => {
-    const { score, highScore } = this.state;
-    if (score > highScore) {
-      this.setState({
-        highScore: score,
-      });
+    const { score, classicHighestScore, arcadeHighestScore, classic } = this.state;
+    if (classic) {
+      if (score > classicHighestScore) {
+        this.setState({
+          classicHighestScore: score,
+        })
+      }
+    }
+
+    if (!classic) {
+      if (score > arcadeHighestScore) {
+        this.setState({
+          arcadeHighestScore: score,
+        })
+      }
     }
   }
 
   onGameOver() {
-    const { highScore } = this.state;
-    localStorage.setItem('highestScore', highScore);
-    initialState.highScore = highScore;
+    const { classicHighestScore, arcadeHighestScore, classic } = this.state;
+    if (classic) {
+      localStorage.setItem('classicHighestScore', classicHighestScore);
+    } else {
+      localStorage.setItem('arcadeHighestScore', arcadeHighestScore);
+    }
     this.setState(initialState);
   }
 
@@ -251,14 +264,14 @@ class App extends Component {
         <h1 style={{ display: 'flex', justifyContent: 'space-around', color: '#53f6c7', fontSize: '3rem'}}>Game Over</h1>
         <div style={{display: 'flex', justifyContent: 'space-around'}}>
           <button className="ModeButton" onClick={() => {
-              this.onGameOver()
-              this.setState({classic: false})
+              this.setState({classic: false});
+              this.onGameOver();
             }}
           >
             Arcade
           </button>
           <button className="ModeButton" onClick={() => {
-              this.onGameOver()
+              this.onGameOver();
               this.setState({classic: true});
             }}
           >
@@ -270,7 +283,7 @@ class App extends Component {
   }
 
   render() {
-    const { snakeBlocks, food, bonusFood, score, highScore, level, gameOver } = this.state;
+    const { snakeBlocks, food, bonusFood, score, classicHighestScore, arcadeHighestScore, level, gameOver, classic } = this.state;
     
     return (
       <>
@@ -288,7 +301,7 @@ class App extends Component {
         </div>
         <div style={{color: '#53f6c7', position: 'relative', margin: '2px auto', width: '500px', display: 'flex', justifyContent: 'space-between'}}>
           <h3>Score: {score}</h3>
-          <h3>High Score: {highScore}</h3>
+          <h3>High Score: {classic ? classicHighestScore : arcadeHighestScore}</h3>
           <h3>Level: {level}</h3>
         </div>
       </>
