@@ -4,6 +4,7 @@ import { getRandomCoordinates }  from '../../libs/utils';
 import { checkIfOutOfBorders, checkIfCollapsed, checkHighScore, classic } from './Utils/GameRules';
 import { checkIfEat } from './Utils/Food';
 import { moveSnake, onKeyDown } from './Utils/Snake';
+import Layout from '../../Layout/Layout';
 
 const initialState = {
   level: 'Noob',
@@ -106,23 +107,25 @@ class App extends Component {
     
     return (
       <>
-        <div className="game-area">
-          {!gameOver
-            ? (
-              <>
-                <Snake snakeBlocks={snakeBlocks} />
-                <Food dot={food} color="red" />
-                {(score%10===0 && score>2) ? <Food color="yellow" dot={bonusFood} /> : null}
-              </>
-            )
-            : this.renderGameOver()
-            }
-        </div>
-        <div style={{color: '#53f6c7', position: 'relative', margin: '2px auto', width: '500px', display: 'flex', justifyContent: 'space-between'}}>
-          <h3>Score: {score}</h3>
-          <h3>High Score: {classic ? classicHighestScore : arcadeHighestScore}</h3>
-          <h3>Level: {level}</h3>
-        </div>
+        <Layout>
+          <div className="game-area">
+            {!gameOver
+              ? (
+                <>
+                  <Snake snakeBlocks={snakeBlocks} />
+                  <Food dot={food} color="red" />
+                  {(score%10===0 && score>2) ? <Food color="yellow" dot={bonusFood} /> : null}
+                </>
+              )
+              : this.renderGameOver()
+              }
+          </div>
+          <div style={{color: '#53f6c7', position: 'relative', margin: '2px auto', width: '500px', display: 'flex', justifyContent: 'space-between'}}>
+            <h3>Score: {score}</h3>
+            <h3>High Score: {classic ? classicHighestScore : arcadeHighestScore}</h3>
+            <h3>Level: {level}</h3>
+          </div>
+        </Layout>
       </>
     );
   }
