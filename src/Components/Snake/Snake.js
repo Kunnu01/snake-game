@@ -10,6 +10,7 @@ const Snake = (props) => {
                     left: `${dot[0]}%`,
                     top: `${dot[1]}%`,
                 }
+                
                 return (
                     <div className={classes.Snake_dot} key={index} style={style}></div>
                 )

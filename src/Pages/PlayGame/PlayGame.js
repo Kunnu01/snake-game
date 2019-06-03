@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { Snake, Food } from '../../Components';
 import { getRandomCoordinates }  from '../../libs/utils';
-import { checkIfOutOfBorders, checkIfCollapsed, checkHighScore } from './Utils/GameRules';
+import { checkIfOutOfBorders, checkIfCollapsed, checkHighScore, classic } from './Utils/GameRules';
 import { checkIfEat } from './Utils/Food';
 import { moveSnake, onKeyDown } from './Utils/Snake';
 
@@ -51,6 +51,7 @@ class App extends Component {
 
   componentDidUpdate() {
     const { score } = this.state;
+    classic(this);
     checkIfOutOfBorders(this);
     checkIfCollapsed(this);
     checkIfEat(this);

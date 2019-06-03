@@ -3,9 +3,8 @@ export function checkIfOutOfBorders(that) {
     let dots = [...snakeBlocks];
     let head = dots[dots.length - 1];
 
-    // let head = snakeBlocks[snakeBlocks.length-1];
-    if (head[0] >= 100 || head[1] >= 100 || head[0] < 0 || head[1] < 0) {
-      if (!classic) {
+    if (!classic) {
+      if (head[0] >= 100 || head[1] >= 100 || head[0] < 0 || head[1] < 0) {
         if (!gameOver) {
           that.setState({
             gameOver: true,
@@ -13,24 +12,39 @@ export function checkIfOutOfBorders(that) {
         }
         return;
       }
+    }
+}
 
-      if (direction === 'Right') {
-        head = [head[0]-100, head[1]];
-      } else if (direction === 'Left') {
-        head = [head[0]+100, head[1]];
-      } else if (direction === 'Down') {
-        head = [head[0], head[1]-100];
-      } else if (direction === 'Up') {
-        head = [head[0], head[1]+100];
-      }
+export function classic(that) {
+  let flag = 0;
+  const { snakeBlocks, direction, classic, gameOver } = that.state;
+  let dots = [...snakeBlocks];
+  let head = dots[dots.length - 1];
+  if (classic) {
+    if (direction === 'Right' && head[0] >= 98) {
+      head = [0, head[1]];
+      flag = 1;
+    } else if (direction === 'Left' && head[0] <= 0) {
+      head = [98, head[1]];
+      flag = 1;
+    } else if (direction === 'Down' && head[1] >= 98) {
+       head = [head[0], 0];
+       flag = 1;
+    } else if (direction === 'Up' && head[1] <= 0) {
+       head = [head[0], 98];
+       flag = 1;
+    }
+    dots.push(head);
+    dots.shift();
 
-      dots.push(head);
-      dots.shift();
+    if (flag) {
       that.setState({
         snakeBlocks: dots,
       })
     }
+  }
 }
+
 
 export function checkIfCollapsed(that) {
     const { snakeBlocks, gameOver } = that.state;
