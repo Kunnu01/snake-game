@@ -6,7 +6,8 @@ html, body {
 
 .game-area {
   position: relative;
-  margin: 20px auto;
+  margin: 15px auto;
+  margin-bottom: 2px;
   width: 550px;
   height: 550px;
   background: #0f1128;

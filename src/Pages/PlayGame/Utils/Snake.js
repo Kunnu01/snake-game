@@ -11,35 +11,35 @@ export function onKeyDown(e, that) {
 
   switch (e.keyCode) {
     case primaryKeys.UP:
-      if (direction !== 'Down')
+      if (direction !== 'Down' && direction !== 'Up')
         that.setState({direction: 'Up'});
       break;
     case secondaryKeys.UP:
-      if (direction !== 'Down')
+      if (direction !== 'Down' && direction !== 'Up')
         that.setState({direction: 'Up'});
       break;
     case primaryKeys.DOWN:
-      if (direction !== 'Up')
+      if (direction !== 'Up' && direction !== 'Down')
         that.setState({direction: 'Down'});
       break;
     case secondaryKeys.DOWN:
-      if (direction !== 'Up')
+      if (direction !== 'Up' && direction !== 'Down')
         that.setState({direction: 'Down'});
       break;
     case primaryKeys.LEFT:
-      if (direction !== 'Right')
+      if (direction !== 'Right' && direction !== 'Left')
         that.setState({direction: 'Left'});
       break;
     case secondaryKeys.LEFT:
-      if (direction !== 'Right')
+      if (direction !== 'Right' && direction !== 'Left')
         that.setState({direction: 'Left'});
       break;
     case primaryKeys.RIGHT:
-      if (direction !== 'Left')
+      if (direction !== 'Left' && direction !== 'Right')
         that.setState({direction: 'Right'});
       break;
     case secondaryKeys.RIGHT:
-      if (direction !== 'Left')
+      if (direction !== 'Left' && direction !== 'Right')
         that.setState({direction: 'Right'});
       break;
   }

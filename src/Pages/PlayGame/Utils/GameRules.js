@@ -1,5 +1,5 @@
 export function checkIfOutOfBorders(that) {
-    const { snakeBlocks, direction, classic, gameOver } = that.state;
+    const { snakeBlocks, classic, gameOver } = that.state;
     let dots = [...snakeBlocks];
     let head = dots[dots.length - 1];
 
@@ -17,7 +17,7 @@ export function checkIfOutOfBorders(that) {
 
 export function classic(that) {
   let flag = 0;
-  const { snakeBlocks, direction, classic, gameOver } = that.state;
+  const { snakeBlocks, direction, classic } = that.state;
   let dots = [...snakeBlocks];
   let head = dots[dots.length - 1];
   if (classic) {

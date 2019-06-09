@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Button from '../../Button/Button';
 import InputTextField from '../InputTextField/InputTextField';
+import axios from '../../../axios';
 import styles from './Login.module.css';
 
 class Login extends Component {
@@ -9,7 +10,43 @@ class Login extends Component {
         this.state = {
             email: '',
             password: '',
+            isLoading: false,
         }
+    }
+
+    checkCredentials = async (email, password) => {
+        try {
+            this.setState({isLoading: true});
+            const res = await axios.get('users.json');
+            const fetchedUsers = [];
+            for (let key in res.data) {
+                fetchedUsers.push({
+                    ...res.data[key],
+                    id: key
+                });
+            }
+            const user = fetchedUsers.find(user => user.email === email);
+            if (!user) {
+                alert('User does not exists');
+                return false;
+            } else if (user.password !== password) {
+                alert('Incorrect Password');
+                return false;
+            } else {
+                localStorage.setItem('user', user);
+                return true;
+            }
+        } catch(error) {
+            throw error;
+        }
+    }
+
+    handleSubmit = async () => {
+        const { modalClosed } = this.props;
+        const { email, password } = this.state;
+        await this.checkCredentials(email, password)
+        this.setState({isLoading: false});
+        modalClosed();
     }
 
     handleOnChange = (field) => (event) => {
@@ -19,6 +56,7 @@ class Login extends Component {
     }
 
     render() {
+        const { isLoading } = this.state;
         return (
             <div className={styles.Login}>
                 <h1>Login</h1>
@@ -32,9 +70,11 @@ class Login extends Component {
                     type="password"
                     name="password"
                     placeholder="password"
-                    onChange={this.handleOnChange('Password')}
+                    onChange={this.handleOnChange('password')}
                 />
-                <Button>Login</Button>
+                <Button onClick={this.handleSubmit}>
+                    { isLoading ? 'Loading...' : 'Login'}
+                </Button>
             </div>
         );
     }

@@ -29,15 +29,39 @@ class NavBar extends Component {
         });
     }
 
+    handleLogout = () => {
+        localStorage.removeItem('user');
+    }
+
     renderForm = () => {
         const { login, register } = this.state;
 
         if (login)
-            return <Login />;
+            return <Login modalClosed={() => this.handleModalClose('login')} />;
         else if (register)
-            return <Register />;
+            return <Register modalClosed={() => this.handleModalClose('register')} />;
         
         return null;
+    }
+
+    renderAuthOptions = () => {
+        const user = localStorage.getItem('user');
+        if (!user) {
+            return (
+                <>
+                    <h2 style={{cursor: 'pointer', marginLeft: '20px'}} onClick={() => this.handleModalOpen('register')}>Register</h2>
+                    <h2 style={{cursor: 'pointer', marginLeft: '20px'}} onClick={() => this.handleModalOpen('login')}>Login</h2>
+                </>
+            )
+        }
+        else {
+            return (
+                <>
+                    <h2 style={{cursor: 'pointer', marginLeft: '20px'}} onClick={() => this.handleModalOpen('register')}>LeaderBoard</h2>
+                    <h2 style={{cursor: 'pointer', marginLeft: '20px'}} onClick={this.handleLogout}>Logout</h2>
+                </>
+            )
+        }
     }
 
     render() {
@@ -52,8 +76,7 @@ class NavBar extends Component {
                         <Modal show={register || login} modalClosed={this.handleModalClose}>
                             {this.renderForm()}
                         </Modal>
-                        <h2 style={{cursor: 'pointer', marginLeft: '20px'}} onClick={() => this.handleModalOpen('register')}>Register</h2>
-                        <h2 style={{cursor: 'pointer', marginLeft: '20px'}} onClick={() => this.handleModalOpen('login')}>Login</h2>
+                        {this.renderAuthOptions()}
                     </div>
                 </nav>
             </div>

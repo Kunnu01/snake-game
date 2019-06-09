@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Button from '../../Button/Button';
 import InputTextField from '../InputTextField/InputTextField';
 import styles from './Register.module.css';
+import axios from '../../../axios';
 
 class Register extends Component {
     constructor(props) {
@@ -10,7 +11,50 @@ class Register extends Component {
             email: '',
             name: '',
             password: '',
+            isLoading: false,
         }
+    }
+
+    alreadyExists = async (email) => {
+        try {
+            const res = await axios.get('users.json')
+            const fetchedUsers = [];
+            for (let key in res.data) {
+                fetchedUsers.push({
+                    ...res.data[key],
+                    id: key
+                });
+            }
+            const user = fetchedUsers.find(user => user.email === email);
+            if(user) {
+                return true;
+            }
+            return false;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    handleSubmit = async () => {
+        this.setState({isLoading: true});
+        const { modalClosed } = this.props;
+        const { email, name, password } = this.state;
+        const data = { email, name, password };
+        const user  = await this.alreadyExists(email);
+        if (user) {
+            alert('User already exists');
+            modalClosed();
+            return;
+        }
+        axios.post('users.json', data)
+            .then(res => {
+                this.setState({isLoading: false})
+                modalClosed();
+            })
+            .catch(err => {
+                this.setState({isLoading: false})
+                modalClosed();
+            });
     }
 
     handleOnChange = (field) => (event) => {
@@ -20,7 +64,7 @@ class Register extends Component {
     }
     
     render() {
-        const { email, name, password } = this.state;
+        const { email, name, password, isLoading } = this.state;
         
         return (
             <div className={styles.Register}>
@@ -46,7 +90,9 @@ class Register extends Component {
                     value={password}
                     onChange={this.handleOnChange('password')}
                 />
-                <Button>Register</Button>
+                <Button onClick={this.handleSubmit} disabled={isLoading}>
+                    { isLoading ? 'Loading...' : 'Register'}
+                </Button>
             </div>
         );
     }
