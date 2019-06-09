@@ -13,6 +13,7 @@ class NavBar extends Component {
         this.state = {
             register: false,
             login: false,
+            leaderBoard: false,
         }
     }
 
@@ -26,6 +27,7 @@ class NavBar extends Component {
         this.setState({
             register: false,
             login: false,
+            leaderBoard: false,
         });
     }
 
@@ -44,6 +46,15 @@ class NavBar extends Component {
         return null;
     }
 
+    renderLeaderBoard = () => {
+        const { leaderBoard } = this.state;
+        if (leaderBoard) {
+            return <h2>Coming Soon</h2>
+        }
+
+        return null;
+    }
+
     renderAuthOptions = () => {
         const user = localStorage.getItem('user');
         if (!user) {
@@ -57,7 +68,7 @@ class NavBar extends Component {
         else {
             return (
                 <>
-                    <h2 style={{cursor: 'pointer', marginLeft: '20px'}} onClick={() => this.handleModalOpen('register')}>LeaderBoard</h2>
+                    <h2 style={{cursor: 'pointer', marginLeft: '20px'}} onClick={() => this.handleModalOpen('leaderBoard')}>LeaderBoard</h2>
                     <h2 style={{cursor: 'pointer', marginLeft: '20px'}} onClick={this.handleLogout}>Logout</h2>
                 </>
             )
@@ -65,7 +76,7 @@ class NavBar extends Component {
     }
 
     render() {
-        const { register, login } = this.state;
+        const { register, login, leaderBoard } = this.state;
         
 
         return (
@@ -75,6 +86,9 @@ class NavBar extends Component {
                     <div style={style}>
                         <Modal show={register || login} modalClosed={this.handleModalClose}>
                             {this.renderForm()}
+                        </Modal>
+                        <Modal show={leaderBoard} modalClosed={this.handleModalClose}>
+                            {this.renderLeaderBoard()}
                         </Modal>
                         {this.renderAuthOptions()}
                     </div>
