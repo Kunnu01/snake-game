@@ -86,6 +86,7 @@ class App extends Component {
           <button className="ModeButton" onClick={() => {
               this.setState({classic: false});
               this.onGameOver();
+              this.props.history.push('/play/arcade');
             }}
           >
             Arcade
@@ -93,6 +94,7 @@ class App extends Component {
           <button className="ModeButton" onClick={() => {
               this.onGameOver();
               this.setState({classic: true});
+              this.props.history.push('/play/classic');
             }}
           >
             Classic
